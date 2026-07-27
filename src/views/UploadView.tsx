@@ -26,10 +26,21 @@ export const UploadView: React.FC = () => {
 
     try {
       const data = await uploadResumeApi(file);
+
       setCandidate(data.resume);
+
       if (data.questions && data.questions.length > 0) {
-        setQuestions(data.questions);
+        setQuestions(
+          data.questions.map((q, index) => ({
+            id: q.id ?? index + 1,
+            question: q.question,
+            category: q.category,
+            difficulty: q.difficulty,
+            context: q.context,
+          }))
+        );
       }
+
       setUploadedSuccess(true);
       addToast('success', 'Resume parsed and interview guide generated!');
     } catch {
@@ -80,9 +91,8 @@ export const UploadView: React.FC = () => {
           onDragLeave={() => setIsDragging(false)}
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
-          className={`cursor-pointer flex flex-col items-center justify-center gap-4 py-8 rounded-2xl transition-all ${
-            isDragging ? 'bg-purple-900/20 scale-[0.99]' : ''
-          }`}
+          className={`cursor-pointer flex flex-col items-center justify-center gap-4 py-8 rounded-2xl transition-all ${isDragging ? 'bg-purple-900/20 scale-[0.99]' : ''
+            }`}
         >
           {/* Large Upload Illustration */}
           <div className="relative">

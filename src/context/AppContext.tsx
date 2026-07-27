@@ -10,6 +10,7 @@ export interface QuestionItem {
   question: string;
   category?: string;
   difficulty?: string;
+  context?: string;
 }
 
 export interface QuestionAnswerRecord {
@@ -140,7 +141,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const updated = { ...prev, ...newSettings };
       try {
         localStorage.setItem('hireprep_settings', JSON.stringify(updated));
-      } catch {}
+      } catch { }
       return updated;
     });
     addToast('info', 'Settings updated');
